@@ -1,5 +1,7 @@
 ---
 import { Button, Card, MetricStat, SectionHeading } from "@jj/ui";
+import { Picture } from "astro:assets";
+import photo from "../assets/jinawong-jino.jpg";
 import Icon from "../components/Icon.astro";
 import { headlineStats, profile } from "../data/profile";
 import Base from "../layouts/Base.astro";
@@ -14,10 +16,25 @@ const more = studies.slice(4);
 
 <Base>
   <section class="hero container" aria-labelledby="hero-title">
-    <p class="mono-label">
-      {profile.title} · {profile.location}
-    </p>
-    <h1 id="hero-title">{profile.name}</h1>
+    <div class="hero-id">
+      <Picture
+        src={photo}
+        alt={profile.name}
+        formats={["avif", "webp"]}
+        widths={[120, 144, 240, 288]}
+        sizes="(min-width: 48rem) 144px, 120px"
+        width={144}
+        height={144}
+        loading="eager"
+        class="avatar"
+      />
+      <div>
+        <p class="mono-label">
+          {profile.title} · {profile.location}
+        </p>
+        <h1 id="hero-title">{profile.name}</h1>
+      </div>
+    </div>
     <p class="lede">{profile.valueProp}</p>
     <div class="ctas">
       <Button href={`mailto:${profile.email}`} size="lg">
@@ -110,6 +127,35 @@ const more = studies.slice(4);
       font-weight: var(--jj-weight-semibold);
       letter-spacing: -0.035em;
       line-height: 1.05;
+    }
+  }
+
+  .hero-id {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--jj-space-5);
+
+    @media (min-width: 48rem) {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--jj-space-8);
+    }
+  }
+
+  // 120px on phones, 144px from tablet up.
+  .avatar {
+    flex: none;
+    width: calc(var(--jj-space-20) + var(--jj-space-10));
+    height: auto;
+    aspect-ratio: 1;
+    border: 1px solid var(--jj-color-border);
+    border-radius: var(--jj-radius-pill);
+    background: var(--jj-color-surface);
+    object-fit: cover;
+
+    @media (min-width: 48rem) {
+      width: calc(var(--jj-space-24) + var(--jj-space-12));
     }
   }
 
