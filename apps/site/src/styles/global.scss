@@ -1,0 +1,259 @@
+@use "@jj/ui/tokens.scss";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: var(--jj-space-20);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--jj-color-bg);
+  color: var(--jj-color-text);
+  font-family: var(--jj-font-sans);
+  font-size: var(--jj-text-md);
+  line-height: var(--jj-leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  flex: 1;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--jj-color-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+
+  &:hover {
+    color: var(--jj-color-accent-hover);
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--jj-color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--jj-color-accent-soft);
+  color: var(--jj-color-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+code,
+pre,
+kbd {
+  font-family: var(--jj-font-mono);
+}
+
+// ---------- layout helpers ----------
+
+.container {
+  width: 100%;
+  max-width: var(--jj-content-width);
+  margin-inline: auto;
+  padding-inline: var(--jj-space-5);
+
+  @media (min-width: 48rem) {
+    padding-inline: var(--jj-space-8);
+  }
+}
+
+.section {
+  padding-block: var(--jj-space-16);
+
+  @media (min-width: 48rem) {
+    padding-block: var(--jj-space-20);
+  }
+
+  & + & {
+    border-top: 1px solid var(--jj-color-border);
+  }
+}
+
+.section--compact {
+  padding-block: var(--jj-space-12);
+
+  @media (min-width: 48rem) {
+    padding-block: var(--jj-space-16);
+  }
+}
+
+.stack {
+  display: grid;
+  gap: var(--jj-space-8);
+  align-content: start;
+
+  > * {
+    min-width: 0;
+  }
+}
+
+.grid {
+  display: grid;
+  gap: var(--jj-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.grid--4 {
+  @media (min-width: 64rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--jj-space-6) var(--jj-space-5);
+
+  @media (min-width: 48rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--jj-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.muted {
+  color: var(--jj-color-text-muted);
+}
+
+.mono-label {
+  margin: 0;
+  color: var(--jj-color-text-muted);
+  font-family: var(--jj-font-mono);
+  font-size: var(--jj-text-xs);
+  letter-spacing: var(--jj-tracking-wide);
+  text-transform: uppercase;
+}
+
+// ---------- long-form text (Markdown + prose pages) ----------
+
+.prose {
+  max-width: var(--jj-prose-width);
+  color: var(--jj-color-text);
+
+  > * + * {
+    margin-top: var(--jj-space-4);
+  }
+
+  h2 {
+    margin-top: var(--jj-space-12);
+    margin-bottom: 0;
+    font-size: var(--jj-text-xl);
+    font-weight: var(--jj-weight-semibold);
+    letter-spacing: -0.01em;
+    line-height: var(--jj-leading-snug);
+  }
+
+  h3 {
+    margin-top: var(--jj-space-8);
+    margin-bottom: 0;
+    font-size: var(--jj-text-lg);
+    font-weight: var(--jj-weight-semibold);
+  }
+
+  p,
+  ul,
+  ol {
+    margin-bottom: 0;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.25em;
+  }
+
+  li + li {
+    margin-top: var(--jj-space-2);
+  }
+
+  li::marker {
+    color: var(--jj-color-text-muted);
+  }
+
+  strong {
+    font-weight: var(--jj-weight-semibold);
+  }
+
+  :not(pre) > code {
+    padding: 0.1em 0.35em;
+    background: var(--jj-color-surface-2);
+    border-radius: 4px;
+    font-size: 0.875em;
+  }
+
+  pre {
+    max-width: calc(100vw - 2 * var(--jj-space-5));
+    margin-block: var(--jj-space-6);
+    padding: var(--jj-space-5);
+    overflow-x: auto;
+    background: var(--jj-color-surface) !important;
+    border: 1px solid var(--jj-color-border);
+    border-radius: var(--jj-radius-md);
+    color: var(--jj-color-text) !important;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    tab-size: 2;
+
+    @media (min-width: 48rem) {
+      max-width: none;
+      width: max-content;
+      min-width: 100%;
+    }
+  }
+
+  pre code span {
+    color: inherit !important;
+  }
+}

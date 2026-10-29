@@ -1,0 +1,264 @@
+---
+import { Button, Card, MetricStat, SectionHeading, Tag, ThemeToggle, Timeline } from "@jj/ui";
+import Playground from "../components/islands/Playground";
+import Base from "../layouts/Base.astro";
+
+const colors = [
+  "bg",
+  "surface",
+  "surface-2",
+  "border",
+  "border-strong",
+  "text",
+  "text-muted",
+  "accent",
+  "accent-soft",
+  "success",
+];
+const space = [1, 2, 3, 4, 6, 8, 12, 16];
+const type = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl"];
+---
+
+<Base
+  title="UI — component gallery"
+  description="The @jj/ui component library rendered live: design tokens, components and a hydrated React island."
+>
+  <section class="section section--compact container stack">
+    <SectionHeading
+      level={1}
+      eyebrow="Design system"
+      title="Component gallery"
+      description="Every component below is imported from packages/ui and rendered by Astro. Static ones ship no JavaScript; the playground at the bottom is the site's only React island."
+    />
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="tokens-title">
+    <SectionHeading
+      id="tokens-title"
+      level={2}
+      eyebrow="Tokens"
+      title="Color, space, type"
+      description="CSS variables with light and dark values. Toggle the theme to see them switch."
+    />
+    <ul class="swatches">
+      {colors.map((c) => (
+        <li>
+          <span class="swatch" style={`background: var(--jj-color-${c})`} />
+          <code>--jj-color-{c}</code>
+        </li>
+      ))}
+    </ul>
+    <div class="scales">
+      <ul class="space" aria-label="Spacing scale">
+        {space.map((s) => (
+          <li>
+            <code>space-{s}</code>
+            <span class="bar" style={`width: var(--jj-space-${s})`} />
+          </li>
+        ))}
+      </ul>
+      <ul class="type" aria-label="Type scale">
+        {type.map((t) => (
+          <li style={`font-size: var(--jj-text-${t})`}>
+            <code>text-{t}</code> Ship it
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="button-title">
+    <SectionHeading
+      id="button-title"
+      level={2}
+      eyebrow="Button"
+      title="Button"
+      description="Primary, secondary and ghost in three sizes. Renders a link when given an href."
+    />
+    <div class="row">
+      <Button>Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button disabled>Disabled</Button>
+    </div>
+    <div class="row">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+      <Button href="#button-title" variant="secondary" size="lg">
+        As a link
+      </Button>
+    </div>
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="card-title">
+    <SectionHeading
+      id="card-title"
+      level={2}
+      eyebrow="Card"
+      title="Card"
+      description="Static, or fully clickable through a single accessible title link."
+    />
+    <ul class="grid">
+      <Card as="li" eyebrow="Static" title="A plain card">
+        <p>Eyebrow, title and body. No link.</p>
+      </Card>
+      <Card as="li" eyebrow="Linked" title="A linked card" href="#card-title" tags={["Astro", "React"]}>
+        <p>The title link stretches over the card. Hover and keyboard focus both show.</p>
+      </Card>
+    </ul>
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="tag-title">
+    <SectionHeading id="tag-title" level={2} eyebrow="Tag / Badge" title="Tag" />
+    <div class="row">
+      <Tag>Neutral</Tag>
+      <Tag variant="accent">Accent</Tag>
+      <Tag variant="outline">Outline</Tag>
+    </div>
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="metric-title">
+    <SectionHeading id="metric-title" level={2} eyebrow="MetricStat" title="MetricStat" />
+    <div class="stats">
+      <MetricStat value="10+" label="years shipping" />
+      <MetricStat value="26" label="CI workflows" hint="GetPod" />
+      <MetricStat value="~230" label="test files added" />
+      <MetricStat value="57%" label="of desktop-app commits" />
+    </div>
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="timeline-title">
+    <SectionHeading id="timeline-title" level={2} eyebrow="Timeline" title="Timeline" />
+    <Timeline
+      items={[
+        {
+          period: "2026 – Present",
+          title: "Current role",
+          org: "Company",
+          current: true,
+          points: ["Bullet points are optional."],
+        },
+        { period: "2020 – 2026", title: "Earlier role", org: "Company", orgNote: "City" },
+      ]}
+    />
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="heading-title">
+    <SectionHeading id="heading-title" level={2} eyebrow="SectionHeading" title="SectionHeading" />
+    <div class="demo-box">
+      <SectionHeading
+        level={3}
+        eyebrow="Eyebrow"
+        title="Title at level 3"
+        description="An optional description, kept to one or two lines."
+      />
+    </div>
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="toggle-title">
+    <SectionHeading
+      id="toggle-title"
+      level={2}
+      eyebrow="ThemeToggle"
+      title="ThemeToggle"
+      description="Server-rendered with both icons; CSS picks one from html[data-theme]. Works hydrated or as static HTML."
+    />
+    <div class="row">
+      <ThemeToggle />
+    </div>
+  </section>
+
+  <section class="section section--compact container stack" aria-labelledby="island-title">
+    <SectionHeading
+      id="island-title"
+      level={2}
+      eyebrow="React island"
+      title="Live playground"
+      description="Hydrated with client:visible — its JavaScript loads only when you scroll here."
+    />
+    <Playground client:visible />
+  </section>
+</Base>
+
+<style lang="scss">
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    gap: var(--jj-space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: grid;
+      gap: var(--jj-space-2);
+    }
+
+    code {
+      color: var(--jj-color-text-muted);
+      font-size: var(--jj-text-xs);
+    }
+  }
+
+  .swatch {
+    height: 3.5rem;
+    border: 1px solid var(--jj-color-border);
+    border-radius: var(--jj-radius-md);
+  }
+
+  .scales {
+    display: grid;
+    gap: var(--jj-space-10);
+
+    @media (min-width: 48rem) {
+      grid-template-columns: 1fr 2fr;
+    }
+
+    ul {
+      display: grid;
+      gap: var(--jj-space-3);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    code {
+      display: inline-block;
+      min-width: 5.5rem;
+      color: var(--jj-color-text-muted);
+      font-size: var(--jj-text-xs);
+    }
+  }
+
+  .space li {
+    display: flex;
+    align-items: center;
+  }
+
+  .bar {
+    height: 0.75rem;
+    background: var(--jj-color-accent);
+    border-radius: 2px;
+  }
+
+  .type li {
+    overflow: hidden;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--jj-space-3);
+  }
+
+  .demo-box {
+    padding: var(--jj-space-6);
+    border: 1px dashed var(--jj-color-border-strong);
+    border-radius: var(--jj-radius-md);
+  }
+</style>

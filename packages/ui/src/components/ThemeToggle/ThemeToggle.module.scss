@@ -1,0 +1,59 @@
+.toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--jj-color-border);
+  border-radius: var(--jj-radius-pill);
+  color: var(--jj-color-text);
+  cursor: pointer;
+  transition:
+    background-color var(--jj-duration-fast) var(--jj-ease),
+    border-color var(--jj-duration-fast) var(--jj-ease);
+
+  &:hover {
+    background: var(--jj-color-surface-2);
+    border-color: var(--jj-color-border-strong);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--jj-focus-ring);
+  }
+
+  svg {
+    grid-area: 1 / 1;
+    width: 1.125rem;
+    height: 1.125rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+// Show the icon of the theme you would switch *to*.
+.sun {
+  display: none;
+}
+
+:global(html[data-theme="dark"]) .sun {
+  display: block;
+}
+
+:global(html[data-theme="dark"]) .moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme])) .sun {
+    display: block;
+  }
+
+  :global(html:not([data-theme])) .moon {
+    display: none;
+  }
+}

@@ -1,0 +1,62 @@
+---
+// Rendered only when SITE.contact.enabled is true. Posts to the Pages Function
+// in functions/api/contact.ts, which verifies the Cloudflare Turnstile token.
+import { SectionHeading } from "@jj/ui";
+import { SITE } from "../site.config";
+---
+
+<section class="section container stack" aria-labelledby="contact-title">
+  <SectionHeading id="contact-title" eyebrow="Contact" title="Send a message" />
+  <form class="form" method="post" action="/api/contact">
+    <label>
+      Name <input name="name" autocomplete="name" required maxlength="100" />
+    </label>
+    <label>
+      Email <input name="email" type="email" autocomplete="email" required maxlength="200" />
+    </label>
+    <label>
+      Message <textarea name="message" rows="5" required maxlength="4000"></textarea>
+    </label>
+    <div class="cf-turnstile" data-sitekey={SITE.contact.turnstileSiteKey}></div>
+    <button type="submit">Send</button>
+  </form>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</section>
+
+<style lang="scss">
+  .form {
+    display: grid;
+    gap: var(--jj-space-4);
+    max-width: 32rem;
+  }
+
+  label {
+    display: grid;
+    gap: var(--jj-space-1);
+    font-size: var(--jj-text-sm);
+    font-weight: var(--jj-weight-medium);
+  }
+
+  input,
+  textarea {
+    padding: var(--jj-space-3);
+    background: var(--jj-color-surface);
+    border: 1px solid var(--jj-color-border-strong);
+    border-radius: var(--jj-radius-md);
+    color: var(--jj-color-text);
+    font: inherit;
+  }
+
+  button {
+    justify-self: start;
+    min-height: 2.5rem;
+    padding-inline: var(--jj-space-5);
+    background: var(--jj-color-accent);
+    border: 0;
+    border-radius: var(--jj-radius-pill);
+    color: var(--jj-color-accent-contrast);
+    font: inherit;
+    font-weight: var(--jj-weight-medium);
+    cursor: pointer;
+  }
+</style>

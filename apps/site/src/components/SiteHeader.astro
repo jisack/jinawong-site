@@ -1,0 +1,132 @@
+---
+import { ThemeToggle } from "@jj/ui";
+
+const nav = [
+  { href: "/work/", label: "Work" },
+  { href: "/about/", label: "About" },
+  { href: "/how-this-site-is-built/", label: "How it's built" },
+  { href: "/ui/", label: "UI" },
+];
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || (href !== "/" && path.startsWith(href));
+---
+
+<header class="header">
+  <div class="container inner">
+    <a class="brand" href="/">
+      <span class="mark" aria-hidden="true">
+        JJ
+      </span>
+      <span class="name">Jinawong Jino</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <ThemeToggle />
+  </div>
+</header>
+
+<script>
+  import { bindThemeToggles } from "@jj/ui/theme";
+  bindThemeToggles();
+</script>
+
+<style lang="scss">
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--jj-color-bg) 85%, transparent);
+    border-bottom: 1px solid var(--jj-color-border);
+    backdrop-filter: saturate(1.4) blur(10px);
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: var(--jj-space-3);
+    min-height: 4rem;
+
+    @media (min-width: 48rem) {
+      gap: var(--jj-space-6);
+    }
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--jj-space-3);
+    margin-right: auto;
+    color: var(--jj-color-text);
+    font-weight: var(--jj-weight-semibold);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    background: var(--jj-color-text);
+    border-radius: var(--jj-radius-sm);
+    color: var(--jj-color-bg);
+    font-family: var(--jj-font-mono);
+    font-size: 0.75rem;
+    font-weight: var(--jj-weight-bold);
+    letter-spacing: 0;
+  }
+
+  // Hidden visually on small screens but kept as the link's accessible name.
+  .name {
+    @media (max-width: 39.99rem) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  nav ul {
+    display: flex;
+    gap: var(--jj-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding-inline: var(--jj-space-2);
+    border-radius: var(--jj-radius-sm);
+    color: var(--jj-color-text-muted);
+    font-size: var(--jj-text-sm);
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--jj-color-text);
+    }
+
+    &[aria-current="page"] {
+      color: var(--jj-color-text);
+      font-weight: var(--jj-weight-medium);
+    }
+
+    @media (min-width: 48rem) {
+      padding-inline: var(--jj-space-3);
+    }
+  }
+</style>

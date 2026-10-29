@@ -1,0 +1,16 @@
+---
+import { Button, SectionHeading } from "@jj/ui";
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Not found">
+  <section class="section container stack">
+    <SectionHeading
+      level={1}
+      eyebrow="404"
+      title="This page doesn't exist"
+      description="The link may be old. Try the work index instead."
+    />
+    <Button href="/work/">See the work</Button>
+  </section>
+</Base>

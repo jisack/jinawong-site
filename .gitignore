@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.turbo/
+.astro/
+storybook-static/
+coverage/
+.lighthouseci/
+.wrangler/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+
+# Private review notes (unconfirmed facts) — kept out of the public repo
+REVIEW.md

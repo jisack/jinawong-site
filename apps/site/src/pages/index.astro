@@ -1,0 +1,177 @@
+---
+import { Button, Card, MetricStat, SectionHeading } from "@jj/ui";
+import Icon from "../components/Icon.astro";
+import { headlineStats, profile } from "../data/profile";
+import Base from "../layouts/Base.astro";
+import { caseStudyHref, getCaseStudies } from "../lib/caseStudies";
+import { SITE } from "../site.config";
+
+const studies = await getCaseStudies();
+// The four "What I've built" highlights from the resume.
+const highlights = studies.slice(0, 4);
+const more = studies.slice(4);
+---
+
+<Base>
+  <section class="hero container" aria-labelledby="hero-title">
+    <p class="mono-label">
+      {profile.title} · {profile.location}
+    </p>
+    <h1 id="hero-title">{profile.name}</h1>
+    <p class="lede">{profile.valueProp}</p>
+    <div class="ctas">
+      <Button href={`mailto:${profile.email}`} size="lg">
+        <Icon name="mail" slot="leadingIcon" />
+        Email me
+      </Button>
+      <Button href={SITE.resumePath} variant="secondary" size="lg" download>
+        Download resume
+      </Button>
+      <span class="social">
+        <a href={profile.links.linkedin} rel="me">
+          <Icon name="linkedin" /> LinkedIn
+        </a>
+        <a href={profile.links.github} rel="me">
+          <Icon name="github" /> GitHub
+        </a>
+      </span>
+    </div>
+    <div class="stats hero-stats">
+      {headlineStats.map((s) => (
+        <MetricStat value={s.value} label={s.label} />
+      ))}
+    </div>
+  </section>
+
+  <section class="section container stack" aria-labelledby="work-title">
+    <SectionHeading
+      id="work-title"
+      eyebrow="What I've built"
+      title="Selected work"
+      description="Each one is a short case study: the problem, what I built, the stack and the outcome."
+    />
+    <ul class="grid">
+      {highlights.map((s) => (
+        <Card
+          as="li"
+          href={caseStudyHref(s)}
+          eyebrow={`${s.data.org} · ${s.data.period}`}
+          title={s.data.title}
+          tags={s.data.stack.slice(0, 4)}
+        >
+          <p>{s.data.summary}</p>
+        </Card>
+      ))}
+    </ul>
+    {more.length > 0 && (
+      <p class="more">
+        Earlier:{" "}
+        {more.map((s, i) => (
+          <>
+            {i > 0 && " · "}
+            <a href={caseStudyHref(s)}>{s.data.title}</a>
+          </>
+        ))}{" "}
+        · <a href="/work/">All work</a>
+      </p>
+    )}
+  </section>
+
+  <section class="section container split" aria-labelledby="site-title">
+    <SectionHeading
+      id="site-title"
+      eyebrow="This site"
+      title="Built like a team codebase"
+      description="A pnpm + Turborepo monorepo: an Astro site with React islands, a tested component library with Storybook, CI with Lighthouse budgets, and a Claude Code workflow that lets non-engineers add content safely."
+    />
+    <div class="split-actions">
+      <Button href="/how-this-site-is-built/" variant="secondary">
+        How it's built
+        <Icon name="arrow-right" slot="trailingIcon" />
+      </Button>
+      <Button href="/ui/" variant="ghost">
+        Component gallery
+      </Button>
+    </div>
+  </section>
+</Base>
+
+<style lang="scss">
+  .hero {
+    padding-block: var(--jj-space-12) var(--jj-space-4);
+
+    @media (min-width: 48rem) {
+      padding-block: var(--jj-space-24) var(--jj-space-8);
+    }
+
+    h1 {
+      margin: var(--jj-space-4) 0 0;
+      font-size: var(--jj-text-3xl);
+      font-weight: var(--jj-weight-semibold);
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+    }
+  }
+
+  .lede {
+    max-width: 38rem;
+    margin: var(--jj-space-5) 0 0;
+    color: var(--jj-color-text-muted);
+    font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+    line-height: var(--jj-leading-snug);
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--jj-space-3);
+    margin-top: var(--jj-space-8);
+  }
+
+  .social {
+    display: inline-flex;
+    gap: var(--jj-space-5);
+    margin-left: var(--jj-space-2);
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--jj-space-2);
+      min-height: 2.75rem;
+      color: var(--jj-color-text-muted);
+      font-size: var(--jj-text-sm);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--jj-color-text);
+      }
+    }
+  }
+
+  .hero-stats {
+    margin-top: var(--jj-space-16);
+  }
+
+  .more {
+    margin: var(--jj-space-6) 0 0;
+    color: var(--jj-color-text-muted);
+    font-size: var(--jj-text-sm);
+  }
+
+  .split {
+    display: grid;
+    gap: var(--jj-space-6);
+    align-items: end;
+
+    @media (min-width: 64rem) {
+      grid-template-columns: 1fr auto;
+    }
+  }
+
+  .split-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--jj-space-3);
+  }
+</style>

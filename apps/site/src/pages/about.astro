@@ -1,0 +1,100 @@
+---
+import { Button, SectionHeading, Timeline } from "@jj/ui";
+import ContactForm from "../components/ContactForm.astro";
+import Icon from "../components/Icon.astro";
+import { experience, profile, toolbox } from "../data/profile";
+import Base from "../layouts/Base.astro";
+import { SITE } from "../site.config";
+---
+
+<Base title="About" description="Experience, toolbox and how I work — Jinawong Jino, senior full-stack engineer.">
+  <section class="section container intro">
+    <SectionHeading level={1} eyebrow="About" title="Full-stack, end to end" />
+    <div class="prose">
+      <p>
+        I'm a senior full-stack engineer based in Thailand, working remotely. For 10+ years I've shipped web products
+        across the stack — React and TypeScript on the front, Go and Node.js behind it, and the CI/CD and infrastructure
+        that get it to production.
+      </p>
+      <p>
+        At Crown Labs I'm one of the top three contributors to the GetPod monorepo. Before that I spent six years at
+        20Scoops, building products for startups in a Hamburg-based venture portfolio with German founders and product
+        owners.
+      </p>
+      <p>
+        I work AI-native: Claude Code with repo-level conventions and custom skills, and every change reviewed and
+        test-gated. I also build that tooling myself — I run a self-hosted fleet of specialized agents and contribute to
+        claude-gateway.
+      </p>
+    </div>
+    <div class="ctas">
+      <Button href={`mailto:${profile.email}`}>
+        <Icon name="mail" slot="leadingIcon" />
+        {profile.email}
+      </Button>
+      <Button href={SITE.resumePath} variant="secondary" download>
+        <Icon name="download" slot="leadingIcon" />
+        Resume (PDF)
+      </Button>
+    </div>
+  </section>
+
+  <section class="section container stack" aria-labelledby="exp-title">
+    <SectionHeading id="exp-title" eyebrow="Experience" title="Where I've worked" />
+    <Timeline items={experience} />
+  </section>
+
+  <section class="section container stack" aria-labelledby="tools-title">
+    <SectionHeading id="tools-title" eyebrow="Toolbox" title="What I use" />
+    <dl class="toolbox">
+      {toolbox.map((t) => (
+        <div>
+          <dt class="mono-label">{t.area}</dt>
+          <dd>{t.items}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="muted small">
+      {profile.education} · {profile.languages}
+    </p>
+  </section>
+
+  {SITE.contact.enabled && <ContactForm />}
+</Base>
+
+<style lang="scss">
+  .intro {
+    display: grid;
+    gap: var(--jj-space-8);
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--jj-space-3);
+  }
+
+  .toolbox {
+    display: grid;
+    gap: var(--jj-space-5);
+    margin: 0;
+
+    @media (min-width: 48rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    div {
+      padding-top: var(--jj-space-3);
+      border-top: 1px solid var(--jj-color-border);
+    }
+
+    dd {
+      margin: var(--jj-space-2) 0 0;
+    }
+  }
+
+  .small {
+    margin: 0;
+    font-size: var(--jj-text-sm);
+  }
+</style>

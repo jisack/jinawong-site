@@ -1,0 +1,27 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  padding: 0 var(--jj-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--jj-radius-sm);
+  font-family: var(--jj-font-mono);
+  font-size: var(--jj-text-xs);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.neutral {
+  background: var(--jj-color-surface-2);
+  color: var(--jj-color-text-muted);
+}
+
+.accent {
+  background: var(--jj-color-accent-soft);
+  color: var(--jj-color-accent-soft-text);
+}
+
+.outline {
+  border-color: var(--jj-color-border-strong);
+  color: var(--jj-color-text-muted);
+}

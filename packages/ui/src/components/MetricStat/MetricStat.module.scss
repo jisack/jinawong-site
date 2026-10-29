@@ -1,0 +1,31 @@
+.stat {
+  display: grid;
+  gap: var(--jj-space-1);
+  align-content: start;
+  padding-top: var(--jj-space-3);
+  border-top: 1px solid var(--jj-color-border-strong);
+}
+
+.value {
+  margin: 0;
+  color: var(--jj-color-text);
+  font-size: var(--jj-text-2xl);
+  font-weight: var(--jj-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--jj-tracking-tight);
+  line-height: var(--jj-leading-tight);
+}
+
+.label {
+  margin: 0;
+  color: var(--jj-color-text-muted);
+  font-size: var(--jj-text-sm);
+  line-height: var(--jj-leading-snug);
+}
+
+.hint {
+  margin: 0;
+  color: var(--jj-color-text-muted);
+  font-family: var(--jj-font-mono);
+  font-size: var(--jj-text-xs);
+}

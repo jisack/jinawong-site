@@ -1,0 +1,32 @@
+---
+import { Card, SectionHeading } from "@jj/ui";
+import Base from "../../layouts/Base.astro";
+import { caseStudyHref, getCaseStudies } from "../../lib/caseStudies";
+
+const studies = await getCaseStudies();
+---
+
+<Base title="Work" description="Case studies: the problem, what I built, the stack and the outcome.">
+  <section class="section container stack">
+    <SectionHeading
+      level={1}
+      eyebrow="Work"
+      title="Case studies"
+      description="Most of my work is private, so these describe the problem, the architecture and the results — no screenshots or internal code."
+    />
+    <ul class="grid">
+      {studies.map((s) => (
+        <Card
+          as="li"
+          headingLevel={2}
+          href={caseStudyHref(s)}
+          eyebrow={`${s.data.org} · ${s.data.period}`}
+          title={s.data.title}
+          tags={s.data.stack.slice(0, 4)}
+        >
+          <p>{s.data.summary}</p>
+        </Card>
+      ))}
+    </ul>
+  </section>
+</Base>

@@ -1,0 +1,89 @@
+---
+import "../styles/global.scss";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { SITE } from "../site.config";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** "article" for case studies, "website" otherwise. */
+  type?: "website" | "article";
+}
+
+const { title, description = SITE.description, type = "website" } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.name}` : SITE.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(SITE.ogImage, Astro.site);
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0d10" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Jinawong Jino — Senior Full-Stack Engineer" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Apply the saved theme before first paint (no flash). Key matches THEME_STORAGE_KEY in @jj/ui. -->
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("jj-theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {
+        // storage blocked: fall back to the OS preference
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
+    <SiteHeader />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>
+
+<style lang="scss">
+  .skip {
+    position: absolute;
+    top: var(--jj-space-2);
+    left: var(--jj-space-2);
+    z-index: 100;
+    padding: var(--jj-space-2) var(--jj-space-4);
+    background: var(--jj-color-accent);
+    border-radius: var(--jj-radius-sm);
+    color: var(--jj-color-accent-contrast);
+    transform: translateY(-200%);
+
+    &:focus {
+      transform: none;
+    }
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>

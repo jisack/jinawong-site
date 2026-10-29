@@ -1,0 +1,10 @@
+pnpm-lock.yaml
+**/dist
+**/.astro
+**/storybook-static
+**/*.md
+**/node_modules
+**/.turbo
+**/coverage
+.lighthouseci
+apps/site/public

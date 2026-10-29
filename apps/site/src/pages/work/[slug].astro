@@ -1,0 +1,176 @@
+---
+import { render } from "astro:content";
+import { MetricStat, Tag } from "@jj/ui";
+import Icon from "../../components/Icon.astro";
+import Base from "../../layouts/Base.astro";
+import { caseStudyHref, getCaseStudies, type CaseStudy } from "../../lib/caseStudies";
+
+export async function getStaticPaths() {
+  const studies = await getCaseStudies();
+  return studies.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: studies[(i + 1) % studies.length] },
+  }));
+}
+
+interface Props {
+  entry: CaseStudy;
+  next: CaseStudy;
+}
+
+const { entry, next } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+---
+
+<Base title={data.title} description={data.summary} type="article">
+  <article class="container article">
+    <a class="back" href="/work/">
+      <Icon name="arrow-left" size={16} /> All work
+    </a>
+
+    <header class="head">
+      <p class="mono-label">
+        {data.org} · {data.period}
+      </p>
+      <h1>{data.title}</h1>
+      <p class="summary">{data.summary}</p>
+    </header>
+
+    <dl class="facts">
+      <div>
+        <dt class="mono-label">Role</dt>
+        <dd>{data.role}</dd>
+      </div>
+      <div class="facts-stack">
+        <dt class="mono-label">Stack</dt>
+        <dd>
+          <ul class="tags" aria-label="Stack">
+            {data.stack.map((t) => (
+              <li>
+                <Tag>{t}</Tag>
+              </li>
+            ))}
+          </ul>
+        </dd>
+      </div>
+    </dl>
+
+    {data.metrics.length > 0 && (
+      <div class="stats metrics">
+        {data.metrics.map((m) => (
+          <MetricStat value={m.value} label={m.label} />
+        ))}
+      </div>
+    )}
+
+    <div class="prose body">
+      <h2>The problem</h2>
+      <p>{data.problem}</p>
+      <Content />
+      <h2>Outcome</h2>
+      <ul>
+        {data.outcome.map((o) => (
+          <li>{o}</li>
+        ))}
+      </ul>
+    </div>
+
+    <nav class="next" aria-label="Next case study">
+      <span class="mono-label">Next</span>
+      <a href={caseStudyHref(next)}>
+        {next.data.title} <Icon name="arrow-right" size={16} />
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style lang="scss">
+  .article {
+    padding-block: var(--jj-space-10) var(--jj-space-20);
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--jj-space-2);
+    min-height: 2.75rem;
+    color: var(--jj-color-text-muted);
+    font-size: var(--jj-text-sm);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--jj-color-text);
+    }
+  }
+
+  .head {
+    max-width: var(--jj-prose-width);
+    margin-top: var(--jj-space-8);
+
+    h1 {
+      margin: var(--jj-space-3) 0 0;
+      font-size: var(--jj-text-3xl);
+      font-weight: var(--jj-weight-semibold);
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+    }
+  }
+
+  .summary {
+    margin: var(--jj-space-4) 0 0;
+    color: var(--jj-color-text-muted);
+    font-size: var(--jj-text-lg);
+    line-height: var(--jj-leading-snug);
+  }
+
+  .facts {
+    display: grid;
+    gap: var(--jj-space-5);
+    max-width: var(--jj-prose-width);
+    margin: var(--jj-space-10) 0 0;
+    padding-block: var(--jj-space-5);
+    border-block: 1px solid var(--jj-color-border);
+
+    @media (min-width: 40rem) {
+      grid-template-columns: 12rem 1fr;
+    }
+
+    dd {
+      margin: var(--jj-space-2) 0 0;
+    }
+  }
+
+  .metrics {
+    max-width: var(--jj-prose-width);
+    margin-top: var(--jj-space-8);
+
+    @media (min-width: 48rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .body {
+    margin-top: var(--jj-space-4);
+  }
+
+  .next {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--jj-space-3);
+    max-width: var(--jj-prose-width);
+    margin-top: var(--jj-space-16);
+    padding-top: var(--jj-space-6);
+    border-top: 1px solid var(--jj-color-border);
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--jj-space-2);
+      font-size: var(--jj-text-lg);
+      font-weight: var(--jj-weight-medium);
+      text-decoration: none;
+    }
+  }
+</style>

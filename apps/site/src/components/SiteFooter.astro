@@ -1,0 +1,73 @@
+---
+import { profile } from "../data/profile";
+import { SITE } from "../site.config";
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container inner">
+    <p>
+      © {year} {profile.name} · Built with Astro, React islands and Claude Code.
+    </p>
+    <ul>
+      <li>
+        <a href={`mailto:${profile.email}`}>Email</a>
+      </li>
+      <li>
+        <a href={profile.links.linkedin} rel="me">
+          LinkedIn
+        </a>
+      </li>
+      <li>
+        <a href={profile.links.github} rel="me">
+          GitHub
+        </a>
+      </li>
+      <li>
+        <a href={SITE.resumePath} download>
+          Resume (PDF)
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+<style lang="scss">
+  .footer {
+    border-top: 1px solid var(--jj-color-border);
+    color: var(--jj-color-text-muted);
+    font-size: var(--jj-text-sm);
+  }
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--jj-space-4);
+    padding-block: var(--jj-space-8);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--jj-space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: var(--jj-color-text-muted);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--jj-color-text);
+      text-decoration: underline;
+    }
+  }
+</style>

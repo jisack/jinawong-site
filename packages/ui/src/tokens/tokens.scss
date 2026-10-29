@@ -1,0 +1,119 @@
+// Design tokens. Every component reads these CSS variables — never hard-code
+// colors, spacing or type sizes in a component stylesheet.
+
+@mixin light {
+  --jj-color-bg: #fafaf9;
+  --jj-color-surface: #ffffff;
+  --jj-color-surface-2: #f2f2ef;
+  --jj-color-border: #e3e3de;
+  --jj-color-border-strong: #c9c9c2;
+  --jj-color-text: #16161a;
+  --jj-color-text-muted: #55555e;
+  --jj-color-accent: #2f47d0;
+  --jj-color-accent-hover: #2639ad;
+  --jj-color-accent-contrast: #ffffff;
+  --jj-color-accent-soft: #eceffd;
+  --jj-color-accent-soft-text: #2433a0;
+  --jj-color-success: #17784a;
+  --jj-color-focus: #2f47d0;
+  --jj-shadow-sm: 0 1px 2px rgb(20 20 30 / 0.05);
+  --jj-shadow-md: 0 1px 2px rgb(20 20 30 / 0.04), 0 8px 24px -8px rgb(20 20 30 / 0.12);
+  color-scheme: light;
+}
+
+@mixin dark {
+  --jj-color-bg: #0c0d10;
+  --jj-color-surface: #131418;
+  --jj-color-surface-2: #1b1c21;
+  --jj-color-border: #26272d;
+  --jj-color-border-strong: #393a42;
+  --jj-color-text: #ededf0;
+  --jj-color-text-muted: #a3a3ad;
+  --jj-color-accent: #93a3ff;
+  --jj-color-accent-hover: #b3beff;
+  --jj-color-accent-contrast: #0c0d10;
+  --jj-color-accent-soft: #1b2044;
+  --jj-color-accent-soft-text: #c3cbff;
+  --jj-color-success: #4fcf8f;
+  --jj-color-focus: #93a3ff;
+  --jj-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --jj-shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
+  color-scheme: dark;
+}
+
+:root {
+  // Typography
+  --jj-font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --jj-font-mono:
+    ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", "Noto Sans Mono",
+    monospace;
+  --jj-text-xs: 0.75rem;
+  --jj-text-sm: 0.875rem;
+  --jj-text-md: 1rem;
+  --jj-text-lg: 1.125rem;
+  --jj-text-xl: 1.375rem;
+  --jj-text-2xl: clamp(1.625rem, 1.35rem + 1.2vw, 2.125rem);
+  --jj-text-3xl: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
+  --jj-leading-tight: 1.15;
+  --jj-leading-snug: 1.35;
+  --jj-leading-body: 1.6;
+  --jj-tracking-tight: -0.02em;
+  --jj-tracking-wide: 0.06em;
+  --jj-weight-regular: 400;
+  --jj-weight-medium: 500;
+  --jj-weight-semibold: 600;
+  --jj-weight-bold: 700;
+
+  // Spacing (4px grid)
+  --jj-space-1: 0.25rem;
+  --jj-space-2: 0.5rem;
+  --jj-space-3: 0.75rem;
+  --jj-space-4: 1rem;
+  --jj-space-5: 1.25rem;
+  --jj-space-6: 1.5rem;
+  --jj-space-8: 2rem;
+  --jj-space-10: 2.5rem;
+  --jj-space-12: 3rem;
+  --jj-space-16: 4rem;
+  --jj-space-20: 5rem;
+  --jj-space-24: 6rem;
+
+  // Shape & motion
+  --jj-radius-sm: 6px;
+  --jj-radius-md: 10px;
+  --jj-radius-lg: 16px;
+  --jj-radius-pill: 999px;
+  --jj-duration-fast: 120ms;
+  --jj-duration-base: 200ms;
+  --jj-ease: cubic-bezier(0.2, 0, 0, 1);
+  --jj-focus-ring: 0 0 0 2px var(--jj-color-bg), 0 0 0 4px var(--jj-color-focus);
+
+  // Layout
+  --jj-content-width: 72rem;
+  --jj-prose-width: 42rem;
+
+  @include light;
+}
+
+// No-JS fallback: follow the OS until a theme is explicitly chosen.
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @include dark;
+  }
+}
+
+:root[data-theme="light"] {
+  @include light;
+}
+
+:root[data-theme="dark"] {
+  @include dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --jj-duration-fast: 0ms;
+    --jj-duration-base: 0ms;
+  }
+}
